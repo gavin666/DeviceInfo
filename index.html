@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <style type="text/css">
+    	.mui-bar-footer{		
+    		bottom: 10px; 		
+    	}
+    	#barea{
+    		width: 180px;
+    		height: 240px;
+    		background: #000000;
+    	}
+    	
+    </style>
+    <script type="text/javascript" charset="utf-8">
+    mui.init();
+	mui.plusReady(function() {
+	var info = document.getElementById("info");
+	document.getElementById("DevicesInfo").addEventListener("tap", function() {
+		var str = "",
+			i;
+		str += "设备型号：" + plus.device.model + "\n";
+		str += "IMEI：" + plus.device.imei + "\n";
+		str += "生产厂商：" + plus.device.vendor + "\n";
+		str += "UUID：" + plus.device.uuid + "\n";
+		str += "IMSI：";
+		for (i = 0; i < plus.device.imsi.length; i++) {
+			str += plus.device.imsi[i];
+		}
+		str += "\n";
+		str += "分辨率：" + plus.screen.resolutionHeight * plus.screen.scale + "X" + plus.screen.resolutionWidth * plus.screen.scale + "\n";
+		str += "DPI：" + plus.screen.dpiX + "X" + plus.screen.dpiY + "\n";
+		info.innerText = str;
+	});
+	document.getElementById("SysInfo").addEventListener("tap", function() {
+		var str = "";
+		str += "系统语言：" + plus.os.language + "\n";
+		str += "系统版本：" + plus.os.version + "\n";
+		str += "系统名称：" + plus.os.name + "\n";
+		str += "系统供应商：" + plus.os.vendor + "\n";
+		str += "网络类型：";
+		var types = {};
+		types[plus.networkinfo.CONNECTION_CELL2G] = "蜂窝移动2G网络";
+		types[plus.networkinfo.CONNECTION_CELL3G] = "蜂窝移动3G网络";
+		types[plus.networkinfo.CONNECTION_CELL4G] = "蜂窝移动4G网络";
+		types[plus.networkinfo.CONNECTION_ETHERNET] = "有线网络";
+		types[plus.networkinfo.CONNECTION_NONE] = "未连接网络";
+		types[plus.networkinfo.CONNECTION_UNKNOW] = "网络连接状态未知";
+		types[plus.networkinfo.CONNECTION_WIFI] = "无线WIFI网络";
+		str += types[plus.networkinfo.getCurrentType()] + "\n";
+		info.innerText = str;
+	});
+	document.getElementById("Beep").addEventListener("tap", function() {
+		plus.device.beep();
+	});
+	document.getElementById("Vibrate").addEventListener("tap", function() {
+		plus.device.vibrate();
+	});
+	document.getElementById("Dial").addEventListener("tap", function() {
+		plus.device.dial("10086", false);
+	});
+	document.getElementById("get").addEventListener("tap", function() {
+		plus.accelerometer.getCurrentAcceleration(function(a){
+			alert("加速度信息:\nX："+a.xAxis+"\nY："+a.yAxis+"\nZ："+a.zAxis);
+		},function(){
+			alert("加速度信息获取失败！");
+		});
+	});
+	document.getElementById("start").addEventListener("tap", function() {
+		var watchid = plus.accelerometer.watchAcceleration(function(a){
+			info.innerText = "加速度信息:\nX："+a.xAxis+"\nY："+a.yAxis+"\nZ："+a.zAxis;
+		},function(){
+			alert("监听加速度失败！");
+		});
+		localStorage.setItem("aid",watchid);
+	});
+	document.getElementById("stop").addEventListener("tap", function() {
+		var aid = localStorage.getItem("aid");
+		plus.accelerometer.clearWatch(aid);
+		info.innerText="监听加速度已结束！";
+	});
+	document.getElementById("stop").addEventListener("tap", function() {
+		var aid = localStorage.getItem("aid");
+		plus.accelerometer.clearWatch(aid);
+		info.innerText="监听加速度已结束！";
+	});
+	document.getElementById("stop").addEventListener("tap", function() {
+		var aid = localStorage.getItem("aid");
+		plus.accelerometer.clearWatch(aid);
+		info.innerText="监听加速度已结束！";
+	});
+	document.getElementById("stop").addEventListener("tap", function() {
+		var aid = localStorage.getItem("aid");
+		plus.accelerometer.clearWatch(aid);
+		info.innerText="监听加速度已结束！";
+	});
+	document.getElementById("stop").addEventListener("tap", function() {
+		var aid = localStorage.getItem("aid");
+		plus.accelerometer.clearWatch(aid);
+		info.innerText="监听加速度已结束！";
+	});
+	var scan = null;
+	document.getElementById("create").addEventListener("tap", function() {
+		var aid = localStorage.getItem("aid");
+		plus.accelerometer.clearWatch(aid);
+		info.innerText="监听加速度已结束！";
+	});
+	document.getElementById("starts").addEventListener("tap", function() {
+		var aid = localStorage.getItem("aid");
+		plus.accelerometer.clearWatch(aid);
+		info.innerText="监听加速度已结束！";
+	});
+	document.getElementById("cancels").addEventListener("tap", function() {
+		var aid = localStorage.getItem("aid");
+		plus.accelerometer.clearWatch(aid);
+		info.innerText="监听加速度已结束！";
+	});
+	document.getElementById("startl").addEventListener("tap", function() {
+		var aid = localStorage.getItem("aid");
+		plus.accelerometer.clearWatch(aid);
+		info.innerText="监听加速度已结束！";
+	});
+	//首页返回键处理
+	//处理逻辑：1秒内，连续两次按返回键，则退出应用；
+	var first = null;
+	plus.key.addEventListener('backbutton', function() {
+		//首次按键，提示‘再按一次退出应用’
+		if (!first) {
+			first = new Date().getTime();
+			mui.toast('再按一次退出应用');
+			setTimeout(function() {
+				first = null;
+			}, 1000);
+		} else {
+			if (new Date().getTime() - first < 1000) {
+				plus.runtime.quit();
+			}
+		}
+	}, false);
+	});
+    </script>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<title class="mui-title">设备信息</title>
+	</header>
+	<div id="" class="mui-content">
+		<div class="mui-content-padded">
+			<button class="mui-btn mui-btn-block mui-btn-blue" id="DevicesInfo">设备信息</button>
+			<button class="mui-btn mui-btn-block mui-btn-blue" id="SysInfo">系统信息</button>
+			<button class="mui-btn mui-btn-block mui-btn-green" id="Beep">设备蜂鸣</button>
+			<button class="mui-btn mui-btn-block mui-btn-green" id="Vibrate">设备震动</button>
+			<button class="mui-btn mui-btn-block mui-btn-grey" id="Dial">拨打电话</button>
+			<button type="button" class="mui-btn mui-btn-red mui-btn-block" id="get">获取加速度</button>
+			<button type="button" class="mui-btn mui-btn-red mui-btn-block" id="start">开始监听加速度</button>
+			<button type="button" class="mui-btn mui-btn-red mui-btn-block" id="stop">停止监听加速度</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="create">创建扫描控件</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="starts">开始扫描</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="cancels">取消扫描</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="startl">开启闪光灯</button>
+			<div id='barea'></div>
+			<div id="info" ></div>
+		</div>
+	</div>
+	<div class="mui-bar-footer" align="center">
+		<p>Powered by Gavin</p>
+	</div>
+</body>
+</html>
